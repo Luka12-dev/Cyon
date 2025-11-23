@@ -1,0 +1,33 @@
+CC = gcc
+AR = ar
+CFLAGS = -Wall -O2 -std=c11 -I../../include
+DEBUGFLAGS = -Wall -g -std=c11 -I../../include
+TARGET = libcyon.a
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
+
+# Default build
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	@echo "🔧 Archiving $(TARGET)..."
+	$(AR) rcs $(TARGET) $(OBJ)
+	@echo "✅ Build complete! -> $(TARGET)"
+
+%.o: %.c
+	@echo "📦 Compiling $<..."
+	$(CC) $(CFLAGS) -c $< -o $@
+
+debug:
+	@echo "🐞 Building debug version..."
+	$(CC) $(DEBUGFLAGS) -c $(SRC)
+	$(AR) rcs $(TARGET) $(OBJ)
+	@echo "✅ Debug build complete!"
+
+clean:
+	@echo "🧹 Cleaning runtime build files..."
+	rm -f $(OBJ) $(TARGET)
+
+rebuild: clean all
+
+.PHONY: all clean debug rebuild

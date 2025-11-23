@@ -1,0 +1,5 @@
+func main() {
+    print("Hello, World!");
+    print("Welcome to the Cyon programming language!");
+    print("This is a simple Hello World example.");
+}

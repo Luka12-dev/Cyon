@@ -1,0 +1,42 @@
+func main() {
+    print("===== Interactive Calculator =====");
+    print("Enter two numbers and choose operation");
+    print("");
+    
+    int a = input_int("Enter first number: ");
+    int b = input_int("Enter second number: ");
+    
+    print("Available operations:");
+    print("1. Addition (+)");
+    print("2. Subtraction (-)");
+    print("3. Multiplication (*)");
+    print("4. Division (/)");
+    print("");
+    
+    int choice = input_int("Choose operation (1-4): ");
+    
+    print("");
+    print("Results:");
+    print("========");
+    
+    if choice == 1:
+        int result = a + b;
+        print(a, " + ", b, " = ", result);
+    else:
+        if choice == 2:
+            int result = a - b;
+            print(a, " - ", b, " = ", result);
+        else:
+            if choice == 3:
+                int result = a * b;
+                print(a, " * ", b, " = ", result);
+            else:
+                if choice == 4:
+                    if b != 0:
+                        int result = a / b;
+                        print(a, " / ", b, " = ", result);
+                    else:
+                        print("Error: Division by zero!");
+                else:
+                    print("Invalid choice! Please select 1-4.");
+}

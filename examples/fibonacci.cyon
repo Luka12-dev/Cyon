@@ -1,0 +1,26 @@
+func main() {
+    print("Fibonacci Sequence Demo");
+    print("========================");
+    
+    int n = 10;
+    print("First 10 fibonacci numbers:");
+    print("");
+    
+    // Calculate fibonacci iteratively to avoid recursion issues
+    int prev = 0;
+    int curr = 1;
+    int i = 0;
+    
+    while i <= n:
+        if i == 0:
+            print("F( 0 ) = 0");
+        else:
+            if i == 1:
+                print("F( 1 ) = 1");
+            else:
+                int temp = curr;
+                curr = curr + prev;
+                prev = temp;
+                print("F(", i, ") =", curr);
+        i = i + 1;
+}

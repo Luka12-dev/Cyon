@@ -1,0 +1,35 @@
+func main() {
+    print("===== Grade Calculator =====");
+    print("Enter your test scores to calculate your average");
+    print("");
+    
+    int score1 = input_int("Enter score 1 (0-100): ");
+    int score2 = input_int("Enter score 2 (0-100): ");
+    int score3 = input_int("Enter score 3 (0-100): ");
+    int score4 = input_int("Enter score 4 (0-100): ");
+    int score5 = input_int("Enter score 5 (0-100): ");
+    
+    int total = score1 + score2 + score3 + score4 + score5;
+    int average = total / 5;
+    
+    print("");
+    print("=== Results ===");
+    print("Scores: ", score1, ", ", score2, ", ", score3, ", ", score4, ", ", score5);
+    print("Total: ", total);
+    print("Average: ", average);
+    print("");
+    
+    if average >= 90:
+        print("Grade: A (Excellent!)");
+    else:
+        if average >= 80:
+            print("Grade: B (Good!)");
+        else:
+            if average >= 70:
+                print("Grade: C (Satisfactory)");
+            else:
+                if average >= 60:
+                    print("Grade: D (Needs improvement)");
+                else:
+                    print("Grade: F (Failing - study harder!)");
+}

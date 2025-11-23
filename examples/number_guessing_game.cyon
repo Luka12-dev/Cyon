@@ -1,0 +1,34 @@
+func main() {
+    print("===== Number Guessing Game =====");
+    print("I'm thinking of a number between 1 and 10");
+    print("");
+    
+    int secret = 7;
+    int tries = 0;
+    int max_tries = 3;
+    int won = 0;
+    
+    while tries < max_tries:
+        int guess = input_int("Enter your guess (1-10): ");
+        tries = tries + 1;
+        
+        if guess == secret:
+            print("Congratulations! You guessed it!");
+            print("You won in ", tries, " tries!");
+            won = 1;
+            tries = max_tries;
+        else:
+            if guess < secret:
+                print("Too low! Try a higher number.");
+            else:
+                print("Too high! Try a lower number.");
+            
+            if tries < max_tries:
+                int remaining = max_tries - tries;
+                print("You have ", remaining, " tries left.");
+            print("");
+    
+    if won == 0:
+        print("Game over! The number was ", secret);
+        print("Better luck next time!");
+}

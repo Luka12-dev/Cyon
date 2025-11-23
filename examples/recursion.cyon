@@ -1,0 +1,5 @@
+﻿func main() {
+    int v = input_int("Enter a number: ");
+    int f = factorial(v);
+    print("factorial of %d is %d", v, f);
+}

@@ -1,0 +1,37 @@
+CC = gcc
+CFLAGS = -O2 -Wall -fPIC -I../include
+AR = ar
+ARFLAGS = rcs
+LIBNAME = libcyon_std.a
+
+SRC = \
+	coreos.c \
+	corefs.c \
+	coreenv.c \
+	coretime.c \
+	corejson.c \
+	coremathx.c \
+	corecrypto.c \
+	corenet.c \
+	corethread.c \
+	coregui.c \
+	coreai.c \
+	corelog.c \
+	corefile.c \
+	coresys.c \
+	coreutil.c
+
+OBJ = $(SRC:.c=.o)
+
+all: $(LIBNAME)
+
+$(LIBNAME): $(OBJ)
+	$(AR) $(ARFLAGS) $@ $(OBJ)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJ) $(LIBNAME)
+
+rebuild: clean all

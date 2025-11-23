@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cyon - Revolutionary systems programming language. Fast compilation, memory safe, cross-platform. Download now!">
+    <title>Cyon - The Future of Systems Programming</title>
+    <link rel="icon" href="cyon.png" type="image/png">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #13131a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b2;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --border: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a24;
+            --text-secondary: #6c757d;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.5;
+            overflow: hidden;
+        }
+
+        .animated-bg::before,
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .animated-bg::before {
+            background: var(--gradient-1);
+            top: -250px;
+            right: -250px;
+        }
+
+        .animated-bg::after {
+            background: var(--gradient-3);
+            bottom: -250px;
+            left: -250px;
+            animation-delay: 7s;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-2);
+            top: 40%;
+            left: 10%;
+            animation-delay: 3s;
+        }
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: var(--gradient-3);
+            top: 60%;
+            right: 15%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(60px, 60px) scale(1.15) rotate(90deg); }
+            50% { transform: translate(-40px, 100px) scale(0.9) rotate(180deg); }
+            75% { transform: translate(40px, -60px) scale(1.08) rotate(270deg); }
+        }
+
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .controls-bar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideInRight 0.8s ease;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 12px 18px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .lang-dropdown {
+            position: relative;
+        }
+
+        .lang-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            min-width: 180px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+        }
+
+        .lang-menu.active {
+            display: block;
+        }
+
+        .lang-option {
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .lang-option:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .lang-option.selected {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            transition: all 0.4s ease;
+        }
+
+        [data-theme="light"] .navbar {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(10, 10, 15, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 75px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-primary);
+            transition: transform 0.4s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.08) translateX(5px);
+        }
+
+        .logo-img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            animation: rotateIn 1s ease, logoFloat 6s ease-in-out infinite 1s;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            50% { 
+                transform: translateY(-8px) rotate(5deg) scale(1.05); 
+            }
+        }
+
+        @keyframes rotateIn {
+            from { transform: rotate(-360deg) scale(0); opacity: 0; }
+            to { transform: rotate(0) scale(1); opacity: 1; }
+        }
+
+        .nav-logo:hover .logo-img {
+            transform: rotate(360deg) scale(1.15);
+            animation: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.4s ease;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 7px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            width: 28px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all 0.4s ease;
+            border-radius: 3px;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        .hero {
+            padding: 180px 20px 120px;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 90px;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 24px;
+            animation: fadeInUp 1s ease 0.1s both;
+        }
+
+        .hero-title {
+            font-size: 62px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease 0.2s both;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-subtitle {
+            font-size: 23px;
+            color: var(--text-secondary);
+            margin-bottom: 45px;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 70px;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            transform: translate(-50%, -50%);
+            transition: width 0.7s, height 0.7s;
+        }
+
+        .btn:hover::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        .btn svg, .btn span {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .btn:hover svg {
+            transform: translateX(5px) scale(1.1);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+            backdrop-filter: blur(15px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 60px;
+            animation: fadeInUp 1s ease 0.8s both;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.4s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-8px);
+        }
+
+        .stat-number {
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 1;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            font-weight: 700;
+        }
+
+        .hero-visual {
+            animation: fadeInRight 1s ease 0.5s both;
+        }
+
+        .code-window {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
+            transition: all 0.6s ease;
+            position: relative;
+        }
+
+        .code-window::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), var(--accent), var(--accent-light), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .code-window:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--accent);
+        }
+
+        .code-window:hover::before {
+            opacity: 1;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .code-header {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .code-dot:hover {
+            transform: scale(1.4);
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27c93f; }
+
+        .code-title {
+            margin-left: auto;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-weight: 600;
+        }
+
+        .code-slides {
+            position: relative;
+            min-height: 450px;
+        }
+
+        .code-slide {
+            display: none;
+        }
+
+        .code-slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-content {
+            padding: 32px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.9;
+            overflow-x: auto;
+        }
+
+        .code-line {
+            display: block;
+            transition: all 0.3s ease;
+            padding: 2px 0;
+        }
+
+        .code-line:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(8px);
+        }
+
+        .keyword { color: #ff79c6; font-weight: 700; }
+        .function { color: #50fa7b; font-weight: 700; }
+        .string { color: #f1fa8c; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; font-style: italic; }
+        .output-label { color: #8be9fd; font-weight: 700; display: block; margin-top: 20px; }
+        .output-text { color: #f8f8f2; opacity: 0.9; }
+
+        .code-carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .carousel-dot:hover {
+            transform: scale(1.3);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .carousel-dot.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            width: 32px;
+            border-radius: 6px;
+        }
+
+        .features {
+            padding: 140px 20px;
+        }
+
+        .section-title {
+            font-size: 54px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 80px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            padding: 45px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-light);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 28px;
+            color: var(--accent-light);
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 25px var(--accent-glow));
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(8deg) translateY(-5px);
+        }
+
+        .feature-card h3 {
+            font-size: 26px;
+            margin-bottom: 18px;
+            transition: color 0.4s ease;
+            font-weight: 800;
+        }
+
+        .feature-card:hover h3 {
+            color: var(--accent-light);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .download {
+            padding: 140px 20px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 80px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .download-section-title {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin: 100px 0 60px;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .download-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .download-section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .download-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 100px;
+        }
+
+        .download-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            padding: 55px 45px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent);
+        }
+
+        .download-icon {
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90px;
+            transition: transform 0.5s ease;
+        }
+
+        .download-card:hover .download-icon {
+            transform: scale(1.15) translateY(-8px);
+            animation: iconBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1.15) translateY(-8px); }
+            50% { transform: scale(1.2) translateY(-12px); }
+        }
+
+        .download-icon svg,
+        .download-icon img {
+            color: var(--accent-light);
+            filter: drop-shadow(0 0 25px var(--accent-glow));
+        }
+
+        .download-card h3 {
+            font-size: 30px;
+            margin-bottom: 14px;
+            font-weight: 800;
+            transition: all 0.4s ease;
+        }
+
+        .download-card:hover h3 {
+            color: var(--accent-light);
+            transform: scale(1.05);
+        }
+
+        .version, .size {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .btn-download {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            padding: 18px;
+            border-radius: 14px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.7s, height 0.7s;
+        }
+
+        .btn-download:hover::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        .btn-download:hover {
+            background: var(--accent-light);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px var(--accent-glow);
+        }
+
+        .source-code-section {
+            max-width: 1050px;
+            margin: 0 auto 100px;
+            padding: 70px 60px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(25px);
+            border-radius: 28px;
+            border: 2px solid var(--accent);
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 120px var(--accent-glow);
+            transition: all 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .source-code-section::before {
+            content: '';
+            position: absolute;
+            inset: -150%;
+            background: conic-gradient(from 0deg, transparent, var(--accent-glow), transparent 30%);
+            animation: rotate 8s linear infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .source-code-section::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: var(--bg-secondary);
+            border-radius: 26px;
+            z-index: 0;
+        }
+
+        .source-code-section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .source-code-section:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 150px var(--accent-glow);
+        }
+
+        .source-code-section h3 {
+            font-size: 40px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-weight: 900;
+        }
+
+        .source-code-section svg {
+            color: var(--accent-light);
+            filter: drop-shadow(0 0 25px var(--accent-glow));
+        }
+
+        .source-code-section p {
+            font-size: 19px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            line-height: 1.9;
+        }
+
+        .source-info {
+            font-size: 15px !important;
+            color: var(--text-secondary);
+            margin-top: 18px !important;
+            margin-bottom: 0 !important;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border-top: 1px solid var(--border);
+            padding: 100px 20px 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-section h4 {
+            font-size: 22px;
+            margin-bottom: 28px;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-light);
+            transform: translateX(8px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        .social-link {
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(15px);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.5s ease;
+            border: 1px solid var(--border);
+        }
+
+        .social-link:hover {
+            transform: translateY(-8px) rotate(8deg) scale(1.1);
+            box-shadow: 0 12px 30px var(--accent-glow);
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 50px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom p {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--accent);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 45px;
+            right: 45px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+            z-index: 998;
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+
+        .scroll-top.show {
+            display: flex;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-10px) scale(1.15);
+            box-shadow: 0 16px 40px var(--accent-glow);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            
+            .hero-title {
+                font-size: 46px;
+            }
+            
+            .hero-subtitle {
+                font-size: 19px;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 75px;
+                flex-direction: column;
+                background: rgba(10, 10, 15, 0.97);
+                backdrop-filter: blur(25px);
+                width: 100%;
+                padding: 35px 20px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+                transition: left 0.4s ease;
+                border-bottom: 1px solid var(--border);
+            }
+            
+            [data-theme="light"] .nav-menu {
+                background: rgba(255, 255, 255, 0.97);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .section-title {
+                font-size: 42px;
+            }
+
+            .features {
+                padding: 100px 20px;
+            }
+
+            .download {
+                padding: 100px 20px;
+            }
+
+            .orb-1, .orb-2 {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 140px 20px 100px;
+            }
+
+            .hero-title {
+                font-size: 38px;
+            }
+            
+            .hero-subtitle {
+                font-size: 17px;
+            }
+            
+            .section-title {
+                font-size: 34px;
+            }
+            
+            .controls-bar {
+                top: 15px;
+                right: 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 35px;
+            }
+            
+            .source-code-section {
+                padding: 45px 35px;
+            }
+            
+            .source-code-section h3 {
+                font-size: 30px;
+            }
+
+            .download-section-title {
+                font-size: 28px;
+            }
+
+            .download-card {
+                padding: 40px 32px;
+            }
+
+            .feature-card {
+                padding: 36px 28px;
+            }
+
+            .btn {
+                padding: 16px 32px;
+                font-size: 15px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .download-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 8px;
+            border: 3px solid var(--bg-secondary);
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="controls-bar">
+        <button id="theme-toggle" class="control-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+            </svg>
+        </button>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <img src="cyon.png" alt="Cyon Logo" class="logo-img">
+                <span class="logo-text">Cyon</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#download" class="nav-link">Download</a></li>
+                <li><a href="Documentation.html" class="nav-link">Docs</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <span>Version 1.0 Released</span>
+                </div>
+                <h1 class="hero-title">Build Fast. Run Faster. Code Better.</h1>
+                <p class="hero-subtitle">Modern systems programming that compiles to blazing-fast native code. Simple syntax, powerful features, zero compromises.</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Download Now</span>
+                    </a>
+                    <a href="Documentation.html" class="btn btn-secondary"><span>Get Started</span></a>
+                    <a href="https://github.com/Luka12-dev/" target="_blank" class="btn btn-outline">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div>
+                            <span class="stat-number">50,000</span>
+                            <span class="stat-number">+</span>
+                        </div>
+                        <span class="stat-label">Lines of Code</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Target Platforms</span>
+                    </div>
+                    <div class="stat">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                        <span class="stat-label">Fast Compilation</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-title">example.cyon</span>
+                    </div>
+                    <div class="code-slides">
+                        <div class="code-slide active">
+                            <pre class="code-content"><code><span class="code-line"><span class="keyword">func</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"Hello, World!"</span>);</span>
+<span class="code-line">}</span>
+<span class="output-label">OUTPUT:</span>
+<span class="code-line"><span class="output-text">Hello, World!</span></span></code></pre>
+                        </div>
+                        <div class="code-slide">
+                            <pre class="code-content"><code><span class="code-line"><span class="keyword">func</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> a = <span class="function">input_int</span>(<span class="string">"Enter first number: "</span>);</span>
+<span class="code-line">    <span class="keyword">int</span> b = <span class="function">input_int</span>(<span class="string">"Enter second number: "</span>);</span>
+<span class="code-line">    <span class="keyword">int</span> sum = a + b;</span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"The sum is:"</span>, sum);</span>
+<span class="code-line">}</span>
+<span class="output-label">OUTPUT:</span>
+<span class="code-line"><span class="output-text">Enter first number: 12</span></span>
+<span class="code-line"><span class="output-text">Enter second number: 15</span></span>
+<span class="code-line"><span class="output-text">The sum is: 27</span></span></code></pre>
+                        </div>
+                        <div class="code-slide">
+                            <pre class="code-content"><code><span class="code-line"><span class="keyword">func</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"Control Structures Demo"</span>);</span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"Countdown from 5:"</span>);</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">int</span> countdown = <span class="number">5</span>;</span>
+<span class="code-line">    <span class="keyword">while</span> countdown > <span class="number">0</span>:</span>
+<span class="code-line">        <span class="function">print</span>(countdown);</span>
+<span class="code-line">        countdown = countdown - <span class="number">1</span>;</span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"Blast off!"</span>);</span>
+<span class="code-line">}</span>
+<span class="output-label">OUTPUT:</span>
+<span class="code-line"><span class="output-text">Control Structures Demo</span></span>
+<span class="code-line"><span class="output-text">Countdown from 5:</span></span>
+<span class="code-line"><span class="output-text">5 4 3 2 1</span></span>
+<span class="code-line"><span class="output-text">Blast off!</span></span></code></pre>
+                        </div>
+                        <div class="code-slide">
+                            <pre class="code-content"><code><span class="code-line"><span class="keyword">func</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"Grade Calculator"</span>);</span>
+<span class="code-line">    <span class="keyword">int</span> score1 = <span class="function">input_int</span>(<span class="string">"Enter score 1: "</span>);</span>
+<span class="code-line">    <span class="keyword">int</span> score2 = <span class="function">input_int</span>(<span class="string">"Enter score 2: "</span>);</span>
+<span class="code-line">    <span class="keyword">int</span> average = (score1 + score2) / <span class="number">2</span>;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="function">print</span>(<span class="string">"Average:"</span>, average);</span>
+<span class="code-line">    <span class="keyword">if</span> average >= <span class="number">90</span>:</span>
+<span class="code-line">        <span class="function">print</span>(<span class="string">"Grade: A (Excellent!)"</span>);</span>
+<span class="code-line">    <span class="keyword">else</span>:</span>
+<span class="code-line">        <span class="function">print</span>(<span class="string">"Keep studying!"</span>);</span>
+<span class="code-line">}</span></code></pre>
+                        </div>
+                    </div>
+                    <div class="code-carousel-nav">
+                        <div class="carousel-dot active" data-slide="0"></div>
+                        <div class="carousel-dot" data-slide="1"></div>
+                        <div class="carousel-dot" data-slide="2"></div>
+                        <div class="carousel-dot" data-slide="3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Developers Love Cyon</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    <h3>Lightning Fast</h3>
+                    <p>Compiles to optimized native code through C. Get performance that rivals handwritten C while writing modern, expressive code.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <h3>Memory Safe</h3>
+                    <p>Advanced memory management with automatic reference counting. Write safe code without garbage collection overhead.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <h3>Cross-Platform</h3>
+                    <p>Write once, compile everywhere. Full support for Windows, Linux, and macOS from a single codebase.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                    </svg>
+                    <h3>Complete Toolchain</h3>
+                    <p>Professional CLI compiler, code optimizer, and full IDE support. Everything you need to build production-ready applications.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <h3>Rich Standard Library</h3>
+                    <p>Comprehensive built-in libraries for I/O, math, networking, threading, and more. Start building immediately.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <h3>C Interoperability</h3>
+                    <p>Seamless integration with existing C libraries. Leverage decades of C code while enjoying modern language features.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download">
+        <div class="container">
+            <h2 class="section-title">Download Cyon</h2>
+            <p class="section-subtitle">Start building high-performance applications in minutes. Choose your platform and get the latest stable release.</p>
+            
+            <h3 class="download-section-title">Cyon Compiler v1.0</h3>
+            <div class="download-cards">
+                <div class="download-card">
+                    <div class="download-icon">
+                        <svg width="72" height="72" viewBox="0 0 88 88" fill="currentColor">
+                            <path d="M0,12.402,35.687,7.945,35.687,42.663,0,42.663ZM40.313,7.945,87.887,0,87.887,42.663,40.313,42.663ZM0,45.337,35.687,45.337,35.687,80.055,0,75.598ZM40.313,45.337,87.887,45.337,87.887,88,40.313,80.055Z"/>
+                        </svg>
+                    </div>
+                    <h3>Windows</h3>
+                    <p class="version">Version 1.0</p>
+                    <p class="size">28 MB</p>
+                    <button class="btn-download" data-platform="windows">Download for Windows</button>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-icon">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/9.0.0/linux.svg" alt="Linux" width="72" height="72" style="filter: invert(1);">
+                    </div>
+                    <h3>Linux</h3>
+                    <p class="version">Version 1.0</p>
+                    <p class="size">8 MB</p>
+                    <button class="btn-download" data-platform="linux">Download for Linux</button>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-icon">
+                        <svg width="72" height="72" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                    </div>
+                    <h3>macOS</h3>
+                    <p class="version">Version 1.0</p>
+                    <p class="size">8 MB</p>
+                    <button class="btn-download" data-platform="macos">Download for macOS</button>
+                </div>
+            </div>
+
+            <div class="source-code-section">
+                <h3>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <span>Full Source Code Available</span>
+                </h3>
+                <p>Download the complete Cyon compiler and runtime source code. Build from source, contribute, or learn how it works.</p>
+                <button class="btn btn-primary btn-lg" data-platform="source">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download Source Code</span>
+                </button>
+                <p class="source-info">Complete compiler, runtime, and standard library (585 KB)</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Cyon Language</h4>
+                    <p>Revolutionary systems programming made simple, fast, and reliable. Build the future with Cyon.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="Documentation.html">Documentation</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="https://github.com/Luka12-dev/" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://github.com/Luka12-dev/" target="_blank" class="social-link" title="GitHub">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@LukaCyber-s4b7o" target="_blank" class="social-link" title="YouTube">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cyon Programming Language. All rights reserved.</p>
+                <p>Created with passion by <a href="https://github.com/Luka12-dev/" target="_blank">Luka</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" class="scroll-top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script>
+        // Create particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // State Management
+        const state = {
+            currentLang: localStorage.getItem('cyon-lang') || 'en',
+            currentTheme: localStorage.getItem('cyon-theme') || 'dark',
+            currentSlide: 0
+        };
+
+        // Translations
+        const translations = {
+            en: { name: 'English' },
+            sr: { name: 'Srpski' },
+            es: { name: 'Español' },
+            ru: { name: 'Русский' },
+            de: { name: 'Deutsch' }
+        };
+
+        // Theme Management
+        function initTheme() {
+            document.documentElement.setAttribute('data-theme', state.currentTheme);
+        }
+
+        function toggleTheme() {
+            state.currentTheme = state.currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', state.currentTheme);
+            localStorage.setItem('cyon-theme', state.currentTheme);
+        }
+
+        // Language Management
+        function updateLanguage(lang) {
+            state.currentLang = lang;
+            const langText = document.querySelector('.lang-text');
+            if (langText && translations[lang]) {
+                langText.textContent = translations[lang].name;
+            }
+            
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            localStorage.setItem('cyon-lang', lang);
+        }
+
+        // Language Dropdown
+        function initLanguageDropdown() {
+            const langToggle = document.getElementById('lang-toggle');
+            const langMenu = document.getElementById('lang-menu');
+            
+            langToggle?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langMenu.classList.toggle('active');
+            });
+
+            document.addEventListener('click', () => {
+                langMenu.classList.remove('active');
+            });
+
+            langMenu?.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const lang = option.getAttribute('data-lang');
+                    if (lang) {
+                        updateLanguage(lang);
+                        langMenu.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Code Carousel
+        function initCodeCarousel() {
+            const slides = document.querySelectorAll('.code-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                state.currentSlide = index;
+            }
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => showSlide(index));
+            });
+            
+            // Auto-advance carousel
+            setInterval(() => {
+                const nextSlide = (state.currentSlide + 1) % slides.length;
+                showSlide(nextSlide);
+            }, 5000);
+        }
+
+        // Navigation
+        function initNavigation() {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navbar = document.querySelector('.navbar');
+            
+            navToggle?.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu?.classList.remove('active');
+                    navToggle?.classList.remove('active');
+                    
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar?.classList.add('scrolled');
+                } else {
+                    navbar?.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Smooth Scroll
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    target?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+        }
+
+        // Download Functionality
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? '#27c93f' : type === 'error' ? '#ff5f56' : '#6366f1'};
+                color: white;
+                padding: 18px 28px;
+                border-radius: 14px;
+                box-shadow: 0 12px 48px rgba(0,0,0,0.4);
+                z-index: 10000;
+                animation: slideInRight 0.4s ease;
+                font-weight: 700;
+                max-width: 320px;
+                font-size: 15px;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.4s ease';
+                setTimeout(() => notification.remove(), 400);
+            }, 3500);
+        }
+
+        function downloadFile(platform) {
+            const paths = {
+                windows: '../bin/cyon-windows.exe',
+                linux: '../bin/cyon-linux',
+                macos: '../bin/cyon-macos',
+                source: '../sourcecode/cyon-source-v1.0.zip'
+            };
+            
+            const filePath = paths[platform];
+            if (!filePath) {
+                showNotification('Invalid platform selected', 'error');
+                return;
+            }
+
+            showNotification(`Starting download for ${platform}...`, 'info');
+            
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href = filePath;
+                link.download = filePath.split('/').pop();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                setTimeout(() => {
+                    showNotification('Download started successfully!', 'success');
+                }, 500);
+            }, 300);
+        }
+
+        // Download Buttons
+        function initDownloadButtons() {
+            document.querySelectorAll('[data-platform]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const platform = this.getAttribute('data-platform');
+                    downloadFile(platform);
+                });
+            });
+        }
+
+        // Scroll to Top
+        function initScrollTop() {
+            const scrollTopBtn = document.getElementById('scroll-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    scrollTopBtn?.classList.add('show');
+                } else {
+                    scrollTopBtn?.classList.remove('show');
+                }
+            });
+            
+            scrollTopBtn?.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initTheme();
+            updateLanguage(state.currentLang);
+            initLanguageDropdown();
+            initCodeCarousel();
+            initNavigation();
+            initSmoothScroll();
+            initScrollTop();
+            initDownloadButtons();
+
+            document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+        });
+    </script>
+</body>
+</html>

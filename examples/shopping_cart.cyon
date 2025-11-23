@@ -1,0 +1,38 @@
+func main() {
+    print("===== Shopping Cart Calculator =====");
+    print("Add items to your cart and see the total!");
+    print("");
+    
+    int item1_price = input_int("Enter price of item 1: $");
+    int item1_qty = input_int("Enter quantity of item 1: ");
+    
+    int item2_price = input_int("Enter price of item 2: $");
+    int item2_qty = input_int("Enter quantity of item 2: ");
+    
+    int item3_price = input_int("Enter price of item 3: $");
+    int item3_qty = input_int("Enter quantity of item 3: ");
+    
+    int subtotal1 = item1_price * item1_qty;
+    int subtotal2 = item2_price * item2_qty;  
+    int subtotal3 = item3_price * item3_qty;
+    
+    int total = subtotal1 + subtotal2 + subtotal3;
+    int tax = total / 10;
+    int final_total = total + tax;
+    
+    print("");
+    print("=== Shopping Cart Summary ===");
+    print("Item 1: $", item1_price, " x ", item1_qty, " = $", subtotal1);
+    print("Item 2: $", item2_price, " x ", item2_qty, " = $", subtotal2);
+    print("Item 3: $", item3_price, " x ", item3_qty, " = $", subtotal3);
+    print("");
+    print("Subtotal: $", total);
+    print("Tax (10%): $", tax);
+    print("Total: $", final_total);
+    print("");
+    
+    if final_total > 100:
+        print("Congratulations! Free shipping!");
+    else:
+        print("Add $", 101 - final_total, " more for free shipping!");
+}

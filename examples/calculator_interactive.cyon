@@ -1,0 +1,24 @@
+func main() {
+    print("Interactive Calculator");
+    print("====================");
+    
+    int a = input_int("Enter first number: ");
+    int b = input_int("Enter second number: ");
+    
+    print("Results:");
+    print("--------");
+    
+    int sum = a + b;
+    int diff = a - b;
+    int prod = a * b;
+    
+    print("Addition: ", a, " + ", b, " = ", sum);
+    print("Subtraction: ", a, " - ", b, " = ", diff);
+    print("Multiplication: ", a, " * ", b, " = ", prod);
+    
+    int quot = a / b;
+    if b != 0:
+        print("Division: ", a, " / ", b, " = ", quot);
+    
+    print("Calculator finished!");
+}

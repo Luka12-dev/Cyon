@@ -1,0 +1,22 @@
+func main() {
+    print("Simple Math Quiz");
+    print("================");
+    
+    int answer1 = input_int("What is 5 + 3? ");
+    
+    if answer1 == 8:
+        print("Correct! Great job!");
+    
+    int answer2 = input_int("What is 10 - 4? ");
+    
+    if answer2 == 6:
+        print("Correct! Well done!");
+    
+    int answer3 = input_int("What is 7 * 2? ");
+    
+    if answer3 == 14:
+        print("Correct! Excellent!");
+    
+    print("Quiz completed!");
+    print("Thanks for playing!");
+}

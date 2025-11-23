@@ -1,0 +1,15 @@
+func main() {
+    print("Simple Input Test");
+    print("================");
+    
+    int age = input_int("Enter your age: ");
+    print("Your age is: ", age);
+    
+    int year = 2024 - age;
+    print("You were born in: ", year);
+    
+    if age >= 18:
+        print("You are an adult!");
+    
+    print("Test completed successfully!");
+}

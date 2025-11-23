@@ -1,0 +1,24 @@
+func main() {
+    print("Counting Game");
+    print("=============");
+    
+    int start = input_int("Enter starting number: ");
+    int end = input_int("Enter ending number: ");
+    
+    print("Counting from ", start, " to ", end);
+    print("================================");
+    
+    int current = start;
+    
+    print("Current number: ", current);
+    current = current + 1;
+    print("Current number: ", current);
+    current = current + 1;
+    print("Current number: ", current);
+    current = current + 1;
+    print("Current number: ", current);
+    current = current + 1;
+    print("Current number: ", current);
+    
+    print("Counting complete!");
+}

@@ -1,0 +1,39 @@
+func main() {
+    print("===== User Profile Creator =====");
+    print("Let's create your profile!");
+    print("");
+    
+    int age = input_int("Enter your age: ");
+    int birth_year = 2024 - age;
+    
+    print("");
+    print("=== Profile Information ===");
+    print("Age: ", age);
+    print("Birth Year: ", birth_year);
+    print("");
+    
+    if age < 13:
+        print("Category: Child");
+        print("You're very young! Study hard and have fun!");
+    else:
+        if age < 18:
+            print("Category: Teenager");
+            print("Enjoy your teenage years!");
+        else:
+            if age < 65:
+                print("Category: Adult");
+                print("You're in your prime working years!");
+            else:
+                print("Category: Senior");
+                print("Wisdom comes with age!");
+    
+    print("");
+    if age >= 18:
+        print("You can vote!");
+    
+    if age >= 16:
+        print("You can drive!");
+    
+    if age >= 21:
+        print("You have full adult privileges!");
+}

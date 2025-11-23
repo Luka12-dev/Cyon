@@ -1,0 +1,6 @@
+﻿func main() {
+    int a = input_int("Enter first number: ");
+    int b = input_int("Enter second number: ");
+    int sum = a + b;
+    print("The sum is:", sum);
+}

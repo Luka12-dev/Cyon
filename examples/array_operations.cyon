@@ -1,0 +1,35 @@
+func main() {
+    print("Simple Math Demo");
+    print("================");
+    
+    /* Simple calculations without arrays */
+    int a = 10;
+    int b = 25;
+    int c = 42;
+    
+    print("Numbers: a =", a, ", b =", b, ", c =", c);
+    print("");
+    
+    // Calculate sum
+    int total = a + b + c;
+    print("Sum of a + b + c:", total);
+    
+    // Find maximum of three numbers
+    int maximum = a;
+    if b > maximum:
+        maximum = b;
+    if c > maximum:
+        maximum = c;
+    print("Maximum:", maximum);
+    
+    // Find minimum of three numbers
+    int minimum = a;
+    if b < minimum:
+        minimum = b;
+    if c < minimum:
+        minimum = c;
+    print("Minimum:", minimum);
+    
+    print("Range:", maximum - minimum);
+    print("Average:", total / 3);
+}

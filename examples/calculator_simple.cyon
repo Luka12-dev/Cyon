@@ -1,0 +1,19 @@
+func main() {
+    int a = 15;
+    int b = 3;
+    
+    print("Calculator Demo");
+    print("Number 1:", a);
+    print("Number 2:", b);
+    print("");
+    
+    int sum = a + b;
+    int diff = a - b;
+    int prod = a * b;
+    int quot = a / b;
+    
+    print("Addition:", sum);
+    print("Subtraction:", diff);
+    print("Multiplication:", prod);
+    print("Division:", quot);
+}
